@@ -1,8 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+}
 
-export default function PostCard({ product }: { product: any }) {
+export default function PostCard({ product }: { product: Product }) {
 return (
 <article className="card">
 <Link href={`/${product.id}`}>

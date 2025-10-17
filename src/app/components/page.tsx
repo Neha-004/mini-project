@@ -11,16 +11,29 @@ return res.json()
 }
 
 
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+}
+
 export default async function PostsPage() {
-const products = await getProducts()
-return (
-<main>
-<h2 style={{ marginTop: 12 }}>Products</h2>
-<div className="grid">
-{products.map((p: any) => (
-<PostCard key={p.id} product={p} />
-))}
-</div>
-</main>
-)
+ const products: Product[] = await getProducts()
+ return (
+ <main>
+ <h2 style={{ marginTop: 12 }}>Products</h2>
+ <div className="grid">
+ {products.map((p: Product) => (
+ <PostCard key={p.id} product={p} />
+ ))}
+ </div>
+ </main>
+ )
 }

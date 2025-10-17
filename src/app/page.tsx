@@ -3,14 +3,27 @@ import Link from "next/link"
 
 export const revalidate = 60
 
-async function getFeaturedProducts() {
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+}
+
+async function getFeaturedProducts(): Promise<Product[]> {
   const res = await fetch("https://fakestoreapi.com/products?limit=4", { next: { revalidate: 60 } })
   if (!res.ok) throw new Error("Failed to fetch products")
   return res.json()
 }
 
 export default async function HomePage() {
-  const featured = await getFeaturedProducts()
+  const featured: Product[] = await getFeaturedProducts()
 
   return (
     <main style={{ marginTop: "2rem" }}>
@@ -44,7 +57,7 @@ export default async function HomePage() {
       <section>
         <h2 style={{ marginBottom: "1rem" }}>Featured Products</h2>
         <div className="grid">
-          {featured.map((p: any) => (
+          {featured.map((p: Product) => (
             <article key={p.id} className="card">
               <Link href={`/posts/${p.id}`}>
                 <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
